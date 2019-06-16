@@ -13,6 +13,7 @@
 </head>
 
 <body>
+<div id="app">
     <!-- 头部栏位 -->
     <!--页面顶部-->
 <div id="nav-bottom">
@@ -22,8 +23,8 @@
 			<div class="py-container">
 				<div class="shortcut">
 					<ul class="fl">
-						<li class="f-item">品优购欢迎您！</li>
-						<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
+						<li class="f-item">{{username}},品优购欢迎您！</li>
+						<li class="f-item"><span><a href="http://localhost:9400/cas/logout" target="_blank">退出登录</a></span></li>
 					</ul>
 					<ul class="fr">
 						<li class="f-item">我的订单</li>
@@ -142,9 +143,9 @@ $(function(){
 <script type="text/javascript" src="js/plugins/sui/sui.min.js"></script>
 <script type="text/javascript" src="js/plugins/jquery-placeholder/jquery.placeholder.min.js"></script>
 <script type="text/javascript" src="js/widget/nav.js"></script>
-<script type="text/javascript" src="pages/userInfo/distpicker.data.js"></script>
+<!--<script type="text/javascript" src="pages/userInfo/distpicker.data.js"></script>
 <script type="text/javascript" src="pages/userInfo/distpicker.js"></script>
-<script type="text/javascript" src="pages/userInfo/main.js"></script>
+<script type="text/javascript" src="pages/userInfo/main.js"></script>-->
 </body>
     <!--header-->
     <div id="account">
@@ -154,9 +155,12 @@ $(function(){
                 <div class="yui3-u-1-6 list">
 
                     <div class="person-info">
-                        <div class="person-photo"><img src="img/_/photo.png" alt=""></div>
+                        <div class="person-photo">
+							<img width="48px" :src="imgi" alt="" v-if="imgi!=null || imgi!='undefined'">
+							<img src="img/_/photo.png" alt="" v-if="imgi==null || imgi=='undefined'">
+						</div>
                         <div class="person-account">
-                            <span class="name">Michelle</span>
+                            <span class="name">{{username}}</span>
                             <span class="safe">账户安全</span>
                         </div>
                         <div class="clearfix"></div>
@@ -191,7 +195,7 @@ $(function(){
                     <div class="body userAddress">
                         <div class="address-title">
                             <span class="title">地址管理</span>
-                            <a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="sui-btn  btn-info add-new">添加新地址</a>
+                            <a data-toggle="modal" data-target=".edit" data-keyboard="false"   class="sui-btn  btn-info add-new" @click="id='',findaddress11List()">添加新地址</a>
                             <span class="clearfix"></span>
                         </div>
                         <div class="address-detail">
@@ -205,24 +209,15 @@ $(function(){
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>刘田田</td>
-                                        <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                        <td>1774***********4</td>
+                                    <tr v-for="address in addressList">
+                                        <td>{{address.contact}}</td>
+                                        <td>{{address.provinceId}} {{address.cityId}} {{address.townId}}{{address.address}}</td>
+                                        <td>{{address.mobile}}</td>
+										{{id}}
                                         <td>
-                                            <a href="#">编辑</a>
-                                            <a href="#">删除</a>
-                                            默认地址
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>沈沉</td>
-                                        <td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-                                        <td>1774***********4</td>
-                                        <td>
-                                            <a href="#">编辑</a>
-                                            <a href="#">删除</a>
-                                            <a href="#">设为默认</a>
+											<a data-toggle="modal" data-target=".edit" data-keyboard="false" href="#" @click="findOne(address.id)">编辑</a>
+                                            <a href="#" @click="dele(address.id)">删除</a>
+											<span v-if="address.isDefault=='1'">默认地址</span>
                                         </td>
                                     </tr>
                                     
@@ -236,13 +231,14 @@ $(function(){
                                     <div class="modal-header">
                                         <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×</button>
                                         <h4 id="myModalLabel" class="modal-title">新增地址</h4>
+										{{addressEntity}}
                                     </div>
                                     <div class="modal-body">
                                         <form action="" class="sui-form form-horizontal">
                                             <div class="control-group">
                                             <label class="control-label">收货人：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" v-model="addressEntity.contact">
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -250,13 +246,19 @@ $(function(){
                                             <div class="controls">
                                                 <div data-toggle="distpicker">
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="province1"></select>
+                                                    <select class="form-control" id="province1" v-model="addressEntity.provinceId">
+														<option :value="address.provinceid" v-for="address in address11List">{{address.province}}</option>
+													</select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="city1"></select>
+                                                    <select class="form-control" id="city1" v-model="addressEntity.cityId">
+														<option :value="address.cityid" v-for="address in address22List">{{address.city}}</option>
+													</select>
                                                 </div>
                                                 <div class="form-group area">
-                                                    <select class="form-control" id="district1"></select>
+                                                    <select class="form-control" id="district1" v-model="addressEntity.townId">
+														<option :value="address.areaid" v-for="address in address33List">{{address.area}}</option>
+													</select>
                                                 </div>
                                             </div>
                                             </div>									 
@@ -264,25 +266,30 @@ $(function(){
                                         <div class="control-group">
                                             <label class="control-label">详细地址：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-large">
+                                                <input type="text" class="input-large" v-model="addressEntity.address">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">联系电话：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" v-model="addressEntity.mobile">
                                             </div>
                                         </div>
-                                        <div class="control-group">
-                                            <label class="control-label">邮箱：</label>
-                                            <div class="controls">
-                                                <input type="text" class="input-medium">
-                                            </div>
-                                        </div>
+										<div class="control-group">
+											<label class="control-label">默认地址：</label>
+											<div class="controls">
+												<label data-toggle="radio" :class="{'radio-pretty':true, 'inline':true ,'checked':addressEntity.isDefault=='1'}">
+													<input type="radio" name="gender" value="1" v-model="addressEntity.isDefault"><span>是</span>
+												</label>
+												<label data-toggle="radio" :class="{'radio-pretty':true, 'inline':true ,'checked':addressEntity.isDefault=='0'}">
+													<input type="radio" name="gender" value="0" v-model="addressEntity.isDefault"><span>否</span>
+												</label>
+											</div>
+										</div>
                                         <div class="control-group">
                                             <label class="control-label">地址别名：</label>
                                             <div class="controls">
-                                                <input type="text" class="input-medium">
+                                                <input type="text" class="input-medium" v-model="addressEntity.alias">
                                             </div>
                                             <div class="othername">
                                                 建议填写常用地址：<a href="#" class="sui-btn btn-default">家里</a>　<a href="#" class="sui-btn btn-default">父母家</a>　<a href="#" class="sui-btn btn-default">公司</a>
@@ -294,8 +301,8 @@ $(function(){
                                         
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">确定</button>
-                                        <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
+                                        <button type="button" data-ok="modal" class="sui-btn btn-primary btn-large" @click="save()">确定</button>
+                                        <button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large" @click="addressEntity={'isDefault':'0'}">取消</button>
                                     </div>
                                 </div>
                             </div>
@@ -438,7 +445,12 @@ $(function(){
 		</div>
 	</div>
 </div>
+</div>
 <!--页面底部END-->
+<script src="plugins/vue/vue.js"></script>
+<script src="plugins/axios/axios.js"></script>
+
+<script src="js/controller/userAddressController.js"></script>
 
 
 

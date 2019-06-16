@@ -2,8 +2,12 @@ package com.pinyougou.user.controller;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.pinyougou.common.util.CookieUtil;
 import com.pinyougou.common.util.PhoneFormatCheckUtils;
+import com.pinyougou.pojo.TbItem;
 import com.pinyougou.user.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +17,10 @@ import com.pinyougou.pojo.TbUser;
 
 import com.github.pagehelper.PageInfo;
 import entity.Result;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * controller
  * @author Administrator
@@ -150,5 +158,28 @@ public class UserController {
                                       @RequestBody TbUser user) {
         return userService.findPage(pageNo, pageSize, user);
     }
+
+	/**
+	 * 获取用户名的方法
+	 * @return
+	 */
+	@RequestMapping("/getName")
+	public String getName(HttpServletRequest request, HttpServletResponse response){
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		return name;
+	}
+
+	/**
+	 * 描述 查询用户信息
+	 * @return
+	 */
+	@RequestMapping("/one")
+	public TbUser one(){
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		TbUser user = new TbUser();
+		user.setUsername(name);
+		return userService.selectOne(user);
+	}
+
 	
 }
