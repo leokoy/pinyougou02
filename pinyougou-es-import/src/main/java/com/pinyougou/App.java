@@ -1,6 +1,6 @@
 package com.pinyougou;
 
-import com.pinyougou.service.ItemService;
+import com.pinyougou.es.service.ItemService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

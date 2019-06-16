@@ -60,7 +60,7 @@ public class ItemPageServiceImpl implements ItemPageService {
     public void deleteByIds(Long[] longs) {
         for (Long aLong : longs) {
             try {
-                FileUtils.forceDelete(new File("F:\\freemarker\\"+aLong+".html"));
+                FileUtils.forceDelete(new File("E:\\createHTML\\"+aLong+".html"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -96,7 +96,7 @@ public class ItemPageServiceImpl implements ItemPageService {
 
 
             //6.创建(写)文件流  输出
-           writer = new FileWriter(new File("F:\\freemarker\\"+tbGoods.getId()+".html"));
+           writer = new FileWriter(new File("E:\\createHTML\\"+tbGoods.getId()+".html"));
             template.process(map,writer);
             //7.关闭流
         } catch (Exception e) {
