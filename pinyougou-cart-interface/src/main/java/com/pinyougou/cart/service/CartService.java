@@ -2,6 +2,7 @@ package com.pinyougou.cart.service;
 
 import entity.Cart;
 
+import java.util.LinkedHashSet;
 import java.util.List; /**
  * 描述
  *
@@ -31,4 +32,9 @@ public interface CartService {
      * @return
      */
     List<Cart> merge(List<Cart> cookieList, List<Cart> cartListFromRedis);
+	//将关注的商品id集合存入redis（Redis_Collect：{name:idList}）
+    void saveIdToRedis(String name, LinkedHashSet<Long> idList);
+
+    //查找此用户关注的商品id列表
+    LinkedHashSet<Long> getIdListFromRedis(String name);
 }

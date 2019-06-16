@@ -100,7 +100,20 @@ var app = new Vue({
                     }
                 }
             )
-        }
+        },
+        //将购物车中的物品移到我的关注（收藏）
+        addCollect:function(itemId){
+            axios.get('/cart/addCollect.shtml', {
+                params: {
+                    //参数名：参数值
+                    itemId: itemId,
+                }
+            }).then(
+                function(response){
+                    alert(response.data.message);
+                }
+            )
+        },
 
 
     },
