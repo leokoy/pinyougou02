@@ -1,27 +1,23 @@
+package com.pinyougou.user.controller;
+
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.github.pagehelper.PageInfo;
 import com.pinyougou.cart.service.CartService;
+import com.pinyougou.common.util.PhoneFormatCheckUtils;
+import com.pinyougou.pojo.TbItem;
+import com.pinyougou.pojo.TbUser;
+import com.pinyougou.user.service.UserService;
+import entity.Result;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
-
-import com.alibaba.fastjson.JSON;
-import com.pinyougou.common.util.CookieUtil;
-import com.pinyougou.common.util.PhoneFormatCheckUtils;
-import com.pinyougou.pojo.TbItem;
-import com.pinyougou.user.service.UserService;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.*;
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.pinyougou.pojo.TbUser;
-
-
-import com.github.pagehelper.PageInfo;
-import entity.Result;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * controller
@@ -205,4 +201,4 @@ public class UserController {
 
     }
 }
-}
+
