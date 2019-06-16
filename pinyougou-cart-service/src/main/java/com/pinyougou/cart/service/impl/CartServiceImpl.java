@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
@@ -159,5 +160,16 @@ public class CartServiceImpl implements CartService {
             }
         }
         return null;
+    }
+	 //将关注的商品id集合存入redis（Redis_Collect：{name:idList}）
+    @Override
+    public void saveIdToRedis(String name, LinkedHashSet<Long> idList){
+        redisTemplate.boundHashOps("Redis_Collect2").put(name,idList);
+    }
+    //查找此用户关注的商品id列表
+    @Override
+    public LinkedHashSet<Long> getIdListFromRedis(String name){
+        LinkedHashSet<Long> idList = (LinkedHashSet<Long>) redisTemplate.boundHashOps("Redis_Collect2").get(name);
+        return idList;
     }
 }

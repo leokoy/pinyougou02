@@ -3,7 +3,9 @@ package com.pinyougou.user.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.pinyougou.mapper.TbItemMapper;
 import com.pinyougou.pojo.TbBrand;
+import com.pinyougou.pojo.TbItem;
 import com.pinyougou.user.service.UserService;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -234,6 +236,16 @@ public class UserServiceImpl extends CoreServiceImpl<TbUser> implements UserServ
         userMapper.updateByExampleSelective(tbUser, example);
 
     }
+	
+	@Autowired
+	private TbItemMapper tbItemMapper;
+	//根据id查TbItem数据
+	@Override
+	public TbItem searchTbItem(Long id){
+		TbItem tbItem = new TbItem();
+		tbItem.setId(id);
+		return tbItemMapper.selectOne(tbItem);
+	}
 
 
 }

@@ -170,21 +170,37 @@ public class GoodsController {
 					//根据SPU的id 查询数据库中的额数据  生成静态页面
 					itemPageService.genItemHtml(id);
 				}*/
-				//发送消息
+				//1.发送消息,生成商品详细页
 				List<TbItem> itemList = goodsService.findTbItemListByIds(ids);
-
 				MessageInfo info = new MessageInfo("Goods_Topic","goods_update_tag","updateStatus",itemList,MessageInfo.METHOD_UPDATE);
-
-
 				String s = JSON.toJSONString(info);
 				Message message = new Message(info.getTopic(),info.getTags(),info.getKeys(),s.getBytes());
-
 				SendResult send = producer.send(message);
 				System.out.println(send);
 
+				//2.发送消息,更新es
+				MessageInfo messageInfo = new MessageInfo("Goods_Es_Topic", "goods_update_tag", "updateStatus", ids, MessageInfo.METHOD_UPDATE);
+				String str = JSON.toJSONString(messageInfo);
+				Message messageToEs = new Message(messageInfo.getTopic(), messageInfo.getTags(), messageInfo.getKeys(), str.getBytes());
+				SendResult sendToEs = producer.send(messageToEs);
+				System.out.println("发送消息:>>>>"+sendToEs);
+			}else if("2".equals(status)){
+				//审核被驳回就发送消息,删除详情页
+				MessageInfo info = new MessageInfo("Goods_Topic","goods_update_tag","updateStatus",ids,MessageInfo.METHOD_DELETE);
+				String body = JSON.toJSONString(info);
+				Message message = new Message(info.getTopic(), info.getTags(), info.getKeys(), body.getBytes());
+				SendResult send = producer.send(message);
+				System.out.println("发送消息:>>>>>"+send);
+
+				//审核被驳回就发送消息,删除es中的商品信息
+				MessageInfo messageInfo = new MessageInfo("Goods_Es_Topic","goods_update_tag","updateStatus",ids,MessageInfo.METHOD_DELETE);
+				String str = JSON.toJSONString(messageInfo);
+				Message messageToEs = new Message(messageInfo.getTopic(), messageInfo.getTags(), messageInfo.getKeys(), str.getBytes());
+				SendResult sendToEs = producer.send(messageToEs);
+				System.out.println("发送消息:>>>>>"+sendToEs);
 			}
 
-			return new Result(true,"更新成");
+			return new Result(true,"更新成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Result(false,"更新失败");

@@ -1,5 +1,7 @@
-package com.pinyougou.user.controller;
+import com.pinyougou.cart.service.CartService;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
@@ -159,6 +161,7 @@ public class UserController {
         return userService.findPage(pageNo, pageSize, user);
     }
 
+
 	/**
 	 * 获取用户名的方法
 	 * @return
@@ -181,5 +184,25 @@ public class UserController {
 		return userService.selectOne(user);
 	}
 
-	
+ @Reference
+    private CartService cartService;
+
+    //查出redis里的收藏列表
+    @RequestMapping("/searchList")
+    public List<TbItem> searchList() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        LinkedHashSet<Long> idList = cartService.getIdListFromRedis(name);
+        System.out.println(cartService+"_+_+_+_+_+_+");
+        List<TbItem> collectList = new ArrayList<>();
+        for (Long id : idList) {
+            TbItem tbItem = userService.searchTbItem(id);
+            System.out.println("====================="+id+"----"+tbItem.getImage());
+            collectList.add(tbItem);
+        }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~"+collectList.size());
+        return collectList;
+
+    }
+}
 }

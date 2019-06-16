@@ -70,7 +70,7 @@
 						<input type="checkbox" name="" id="" value="" />
 						<span class="shopname">{{cart.sellerName}}</span>
 					</div>
-					<div class="cart-body">
+						<div class="cart-body">
 						<div class="cart-list" v-for="orderItem in cart.orderItemList">
 							<ul class="goods-list yui3-g">
 								<li class="yui3-u-1-24">
@@ -82,7 +82,7 @@
 										<div class="item-msg">{{orderItem.title}}</div>
 									</div>
 								</li>
-								
+
 								<li class="yui3-u-1-8"><span class="price">{{orderItem.price}}</span></li>
 								<li class="yui3-u-1-8">
 									<a href="javascript:void(0)" class="increment mins" @click="addGoodsToCartList(orderItem.itemId,-1)">-</a>
@@ -92,7 +92,7 @@
 								<li class="yui3-u-1-8"><span class="sum">{{orderItem.totalFee}}</span></li>
 								<li class="yui3-u-1-8">
 									<a href="#none" @click="addGoodsToCartList(orderItem.itemId,-orderItem.num)">删除</a><br />
-									<a href="#none">移到我的关注</a>
+									<a href="#none" @click="addCollect(orderItem.itemId)">移到我的关注</a>
 								</li>
 							</ul>
 						</div>

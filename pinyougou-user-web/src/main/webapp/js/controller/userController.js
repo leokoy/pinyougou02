@@ -29,11 +29,39 @@
                     alert(response.message);
                 }
             )
+        },
+        //查出redis中对应用户的关注列表list[]
+        searchList: function () {
+            axios.get('/user/searchList.shtml').then(
+                function (response) {
+                    console.log(response)
+                    app.list = response.data;
+                }
+            )
+        },
+        //添加购物车
+        addGoodsToCartList:function (itemId,num) {
+            axios.get('http://localhost:9107/cart/addGoodsToCartList.shtml',{
+                params:{
+                    itemId:itemId,
+                    num:num
+                },
+                //客户端在AJax的时候携带cookie到服务器。
+                withCredentials:true
+            }).then(
+                function (response) {//result
+                    if(response.data.success){
+                        window.location.href="http://localhost:9107/cart.html";
+                    }else{
+                        alert("失败");
+                    }
+                }
+            )
         }
     },
     //钩子函数 初始化了事件和
     created: function () {
-      
+       this.searchList();
 
 
     }
