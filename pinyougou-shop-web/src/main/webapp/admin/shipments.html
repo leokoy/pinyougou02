@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        th{
+            width: 200px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid black;
+            background: gray;
+        }
+        td{
+            width: 200px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border: 1px solid black;
+        }
+        .red{
+            border: 1px solid red;
+        }
+        .font{
+            border: green;
+        }
+        #add_show{
+            margin-top: 10px;
+            width: 798px;
+            height: 600px;
+            border: 1px solid black;
+        }
+    </style>
+    <!--<script src="../angular-1.5.5/angular.min.js"></script>-->
+
+    <!--<script>
+        var myapp=angular.module("myapp",[]);
+        myapp.controller("MysCtrl",function ($scope) {
+            $scope.items=[
+                { shopname:'小米6',name:"张三",call:'19876542',price:4955,city:"北京",time:"08-01 10:00",state:"发货",check:false},
+                { shopname:'华为P9',name:"李四",call:'18653555',price:2141,city:"上海",time:"08-02 10:00",state:"发货",check:false},
+                { shopname:'OPPO R11',name:"王五",call:'17562545',price:3200,city:"广州",time:"09-03 10:00",state:"以发货",check:false},
+                { shopname:'VIVO X9',name:"小米",call:'17524633',price:1999,city:"天津",time:"09-04 10:00",state:"以发货",check:false},
+                { shopname:'Iphone8',name:"小雷",call:'12345698',price:6810,city:"武汉",time:"10-04 9:00",state:"以发货",check:false}
+            ];
+            //按城市查询
+            $scope.findCity="选择城市";
+            $scope.citys=function (item) {
+                if($scope.findCity!="选择城市"){
+
+                    if($scope.findCity==item.city){
+                        return true;
+                    }else {
+                        return false;
+                    }
+                }else{
+                    return true;
+                }
+            };
+            // 查询状态
+            $scope.myStates="选择状态";
+            $scope.states=function (item) {
+                if($scope.myStates!="选择状态"){
+                    if($scope.myStates==item.state){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return true;
+                }
+
+            }
+            //点击全选
+            $scope.CheckedAll=function () {
+                if($scope.AllChecked==true){
+                    for(var i=0;i<$scope.items.length;i++){
+                        $scope.items[i].check=true;
+                    }
+                }else{
+                    for(var i=0;i<$scope.items.length;i++){
+                        $scope.items[i].check=false;
+                    }
+                }
+            };
+            $scope.ItemsChecked=function () {
+                var flag=0;
+                for(var i=0;i<$scope.items.length;i++){
+                    if($scope.items[i].check==true){
+                        flag++;
+                    }else{
+                        flag&#45;&#45;;
+                    }
+                }
+                if(flag==$scope.items.length){
+                    $scope.AllChecked=true;
+                }else{
+                    $scope.AllChecked=false;
+                }
+            };
+            //批量删除
+            $scope.piDelete=function () {
+                for (var i = 0; i < $scope.items.length; i++) {
+                    if ($scope.items[i].check) { //选中的
+                        $scope.items.splice($scope.items.indexOf($scope.items[i]), 1);
+                        i&#45;&#45;;
+                    }
+                }
+                //判断if全选那么把表头隐藏
+                if($scope.AllChecked==true){
+                    document.getElementsByTagName("table")[0].innerHTML="";
+                }
+            };
+            $scope.show=false;
+            $scope.add=function () {
+                $scope.show=true;
+            };
+            //点击添加
+            $scope.k_shName="";
+            $scope.k_Name="";
+            $scope.k_call="";
+            $scope.show=false;
+            $scope.checks=false;
+            $scope.k_City="选择城市";
+            $scope.tj=function () {
+
+//                if($scope.k_shName==""|| $scope.k_shName.length<6|| $scope.k_shName.length<20
+//                ||$scope.k_Name.length<4||$scope.k_Name.length<16
+//                    ||$scope.k_City=="选择城市")
+//                {
+//
+//                    $scope.show=true;
+//                    $scope.checks=true;
+//                }else
+//                    {
+                $scope.show=true;
+                $scope.checks=true;
+                $scope.items.push({
+                    shopname:$scope.k_shName,
+                    name:$scope.k_Name,
+                    call:$scope.k_call,
+                    city:$scope.k_City,
+                    state:"发货"
+                });
+//                }
+
+            };
+
+            //排序
+
+            $scope.correct=true;
+            $scope.sortname="";
+            $scope.sort=function (name) {
+                $scope.sortname=name;
+            };
+            //状态改变
+            $scope.kd=function (index) {
+                if($scope.items[index].state=="发货"){
+                    $scope.items[index].state="以发货"
+                }
+            }
+
+
+        })
+    </script>-->
+</head>
+
+<body >
+
+<div id="app">
+<h3 id="myModalLabel">订单发货</h3>
+<input type="text" ng-model="key_name" placeholder="用户名搜索">
+<input type="text" ng-model="key_call" placeholder="手机号搜索">
+<select ng-model="findCity" ng-change="fun()">
+    <option>选择城市</option>
+    <option>北京</option>
+    <option>上海</option>
+    <option>广州</option>
+    <option>天津</option>
+    <option>武汉</option>
+</select>
+<select ng-model="myStates" ng-change="run()">
+    <option>选择状态</option>
+    <option>发货</option>
+    <option>以发货</option>
+</select><br>
+<button ng-click="add()">新增订单</button>
+<button @click="updateStatus(4)">确认发货</button>
+<table>
+    <thead>
+    <tr>
+        <th><input type="checkbox"></th>
+        <th>ID</th>
+        <th>商品名</th>
+        <th>用户名</th>
+        <th>手机号</th>
+        <th>价格:￥</th>
+        <th>收货地址</th>
+        <th>下单时间</th>
+        <th>状态</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="entity in list">
+
+
+
+        <td>   <input type="checkbox"  v-model="ids" :value="entity.orderId">	</td>
+        <td>{{entity.orderId}}</td>
+        <td>{{entity.buyerNick}}</td>
+        <td>{{entity.receiver}}</td>
+        <td>{{entity.receiverMobile}}</td>
+        <td>{{entity.payment}}</td>
+        <td>{{entity.receiverAreaName}}</td>
+
+        <td>{{entity.createTime}}</td>
+        <td>{{status[entity.status]}}</td>
+
+        <!--<td ng-click="kd($index)">{{x.state}}</td>-->
+    </tr>
+    </tbody>
+</table>
+    <navigation :pages="pages" :current.sync="pageNo"  @navpage="searchList"></navigation>
+
+
+
+    <div ng-show="show" id="add_show" style="width: 500px;height: 500px;text-align: center">
+
+    <p>新增订单</p>
+    <span>商品名</span><input type="text" ng-model="k_shName"  ng-class="{red:checks}" placeholder="6-20个字符"><br>
+    <span>用户名</span><input type="text" ng-model="k_Name" ng-class="{red:checks}" placeholder="4-16个字符"><br>
+    <span>手机号</span><input type="text" ng-model="k_call"  ng-class="{red:checks}" placeholder="请输入手机号"><br>
+    <span>城市</span>
+    <select  >
+        <option>选择城市</option>
+        <option>北京</option>
+        <option>上海</option>
+        <option>广州</option>
+        <option>南京</option>
+    </select>
+
+    <ul style="width: 200px;height: 200px;display:block;margin-left:150px;text-align: center;background: red;opacity: 0.8">
+        <li>商品名不能为空</li>
+        <li>商品名必须是6-20个字符</li>
+        <li>用户名不能为空</li>
+        <li>用户名必须是4-16个字符</li>
+        <li>手机号格式不正确</li>
+        <li>请选择城市!</li>
+    </ul>
+    <button @click="" style="background: green">提交</button>
+
+</div>
+</div>
+</body>
+<script src="../plugins/vue/vue.js"></script>
+<!--获取URL中的参数-->
+<script src="../js/controller/base.js"></script>
+<script src="../plugins/axios/axios.js"></script>
+<script src="../js/pagination.js"></script>
+<script src="../js/controller/shipments.js"></script>
+<!--<script src="../js/controller/brandController.js"></script>-->
+</html>

@@ -16,4 +16,14 @@
     <result column="pic_path" property="picPath" jdbcType="VARCHAR" />
     <result column="seller_id" property="sellerId" jdbcType="VARCHAR" />
   </resultMap>
+
+  <resultMap id="OrderResultMap" type="entity.Order" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+  </resultMap>
+
+  <select id="findCount" resultType="entity.Order">
+    select sum(a.price*a.num) market,a.title name, sum(a.num) marketNum  from tb_order_item a group by a.title  order BY market DESC;
+  </select>
 </mapper>

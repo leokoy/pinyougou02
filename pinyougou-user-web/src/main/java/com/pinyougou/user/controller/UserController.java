@@ -1,8 +1,12 @@
 package com.pinyougou.user.controller;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 
+import com.pinyougou.cart.service.CartService;
 import com.pinyougou.common.util.PhoneFormatCheckUtils;
+import com.pinyougou.pojo.TbItem;
 import com.pinyougou.user.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.DigestUtils;
@@ -149,6 +153,26 @@ public class UserController {
                                       @RequestParam(value = "pageSize", defaultValue = "10", required = true) Integer pageSize,
                                       @RequestBody TbUser user) {
         return userService.findPage(pageNo, pageSize, user);
+    }
+    @Reference
+    private CartService cartService;
+
+    //查出redis里的收藏列表
+    @RequestMapping("/searchList")
+    public List<TbItem> searchList() {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        LinkedHashSet<Long> idList = cartService.getIdListFromRedis(name);
+        System.out.println(cartService+"_+_+_+_+_+_+");
+        List<TbItem> collectList = new ArrayList<>();
+        for (Long id : idList) {
+            TbItem tbItem = userService.searchTbItem(id);
+            System.out.println("====================="+id+"----"+tbItem.getImage());
+            collectList.add(tbItem);
+        }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~"+collectList.size());
+        return collectList;
+
     }
 	
 }
