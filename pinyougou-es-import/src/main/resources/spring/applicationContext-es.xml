@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:elasticsearch="http://www.springframework.org/schema/data/elasticsearch"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/data/elasticsearch http://www.springframework.org/schema/data/elasticsearch/spring-elasticsearch.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--组件扫描-->
+
+    <context:component-scan base-package="com.pinyougou.service"></context:component-scan>
+
+    <!--扫描 接口所在的包-->
+    <elasticsearch:repositories base-package="com.pinyougou.dao" ></elasticsearch:repositories>
+
+    <!--链接ES的客户端 ：host ,port-->
+
+    <elasticsearch:transport-client id="client" cluster-name="elasticsearch" cluster-nodes="127.0.0.1:9300"></elasticsearch:transport-client>
+
+
+    <!--配置elasticsearchTemplate核心类：提供了CRUD的方法-->
+    <bean class="org.springframework.data.elasticsearch.core.ElasticsearchTemplate" id="elasticsearchTemplate">
+        <constructor-arg name="client" ref="client"></constructor-arg>
+    </bean>
+
+    <!--导入doa-->
+
+    <import resource="applicationContext-dao.xml"></import>
+
+</beans>

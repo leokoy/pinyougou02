@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="app">
+    <div :class="prevx">aaaa</div>
+    <div :class="{disabled:1==2}">bbb</div>
+    <div :class="{prev:false,disabled:true}">ccc</div>
+    <div :class="[{'prev':false},'disabled']">ddd</div>
+</div>
+
+</body>
+<script src="plugins/vue/vue.js"></script>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+           prevx:'disabled',
+            isActive:false,
+        },
+        methods:{
+
+        },
+        created:function () {
+
+        }
+    });
+</script>
+
+</html>

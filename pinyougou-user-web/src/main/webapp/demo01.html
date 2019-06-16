@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>前端校验的测试</title>
+</head>
+<body>
+
+<div id="app">
+    <form >
+        <div>
+            请输入邮箱地址：<input type="text" v-validate="'required|email'" name="email">
+            <span>{{ errors.first('email') }}</span>
+        </div>
+
+        <div>
+            日期： <input v-validate="'date_format:yyyy/MM/dd'" name="afterField" type="text">
+            <span>{{ errors.first('afterField') }}</span>
+        </div>
+
+
+        开始日期： <input v-validate="'date_format:yyyy/MM/dd|before:endTimex'" name="startTime" type="text">
+
+        结束日期： <input v-validate="'date_format:yyyy/MM/dd'" ref="endTimex" name="endTime" type="text">
+        <span>{{ errors.first('startTime') }}</span>
+        <span>{{ errors.first('endTime') }}</span>
+
+
+        <div>
+            2次密码是否一致： <input v-validate="'required'" name="password" ref="password" type="text">
+            <span>{{ errors.first('password') }}</span>
+            <br/>
+            确认密码：<input v-validate="'required|confirmed:password'" name="password_confirmation" data-vv-as="password"
+                        type="text">
+            <span>{{ errors.first('password_confirmation') }}</span>
+        </div>
+
+
+        <button @click="formSubmit()">提交</button>
+
+
+    </form>
+</div>
+
+</body>
+
+<!--引入JS-->
+<script type="text/javascript"  src="plugins/vue/vue.js"></script>
+<script type="text/javascript"  src="js/veeValidate/vee-validate.js"></script>
+<script type="text/javascript"  src="js/veeValidate/zh_CN.js"></script>
+<!--使用组件-->
+<script>
+    //1.使用基于vue的前端校验框架
+    Vue.use(VeeValidate,{locale: 'zh_CN'});
+
+    //2.使用vue
+    var app = new Vue({
+        el:"#app",
+        data:{
+
+        },methods:{
+            formSubmit:function () {
+                //先校验 如果成功 就可以提交请求 如果失败就不能提交
+                this.$validator.validate().then(
+                    function (result) {
+                        if(result){//如果是true 说明校验成攻
+                            alert("成功");
+                        }else{
+                            alert("失败");
+                        }
+                    }
+                )
+            }
+        }
+    })
+
+</script>
+
+
+</html>
