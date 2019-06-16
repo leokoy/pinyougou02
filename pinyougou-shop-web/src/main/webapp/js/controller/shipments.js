@@ -6,14 +6,14 @@ var app = new Vue({
         list: [],
         entity: {},
         ids: [],
-        searchEntity: {id: ''},
+        searchEntity: {},
 
         status: ['','', '', '未发货','已发货']
 
     },
     methods: {
         searchList:function (curPage) {
-            axios.post('/orderItem/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
+            axios.post('/order/search.shtml?pageNo='+curPage,this.searchEntity).then(function (response) {
                 //获取数据
                 app.list=response.data.list;
 
@@ -23,23 +23,12 @@ var app = new Vue({
                 app.pages=response.data.pages;
             });
         },
-
-        findOrderCount: function () {
-            axios.get('/order/findAll.shtml').then(function (response) {
-                console.log(response);
-                //注意：this 在axios中就不再是 vue实例了。
-                app.list = response.data;
-
-            }).catch(function (error) {
-
-            })
-        },
         updateStatus: function (status) {
             axios.post('/order/updateStatus.shtml?status=' + status, this.ids).then(
                 function (response) {
                     if (response.data.success) {
                         app.ids = [];
-                        app.findOrderCount();
+                        app.searchList(1);
                     }
                 }
             )
@@ -50,8 +39,7 @@ var app = new Vue({
 
     //钩子函数 初始化了事件和
     created: function () {
-        this.findOrderCount();
-        // this.searchList(1);
+        this.searchList(1);
 
     }
 

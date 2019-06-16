@@ -12,7 +12,7 @@ public class App {
     public static void main(String[] args) {
 
         //1.初始化spring容器
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext-es.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/applicationContext-service.xml");
 
         //2.获取容器中的serivce的实例对象
         ItemService itemService = context.getBean(ItemService.class);

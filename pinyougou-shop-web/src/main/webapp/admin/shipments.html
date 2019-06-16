@@ -175,34 +175,18 @@
         })
     </script>-->
 </head>
-
 <body >
 
 <div id="app">
 <h3 id="myModalLabel">订单发货</h3>
-<input type="text" ng-model="key_name" placeholder="用户名搜索">
-<input type="text" ng-model="key_call" placeholder="手机号搜索">
-<select ng-model="findCity" ng-change="fun()">
-    <option>选择城市</option>
-    <option>北京</option>
-    <option>上海</option>
-    <option>广州</option>
-    <option>天津</option>
-    <option>武汉</option>
-</select>
-<select ng-model="myStates" ng-change="run()">
-    <option>选择状态</option>
-    <option>发货</option>
-    <option>以发货</option>
-</select><br>
-<button ng-click="add()">新增订单</button>
+
 <button @click="updateStatus(4)">确认发货</button>
 <table>
     <thead>
     <tr>
         <th><input type="checkbox"></th>
         <th>ID</th>
-        <th>商品名</th>
+        <!--<th>商品名</th>-->
         <th>用户名</th>
         <th>手机号</th>
         <th>价格:￥</th>
@@ -218,7 +202,7 @@
 
         <td>   <input type="checkbox"  v-model="ids" :value="entity.orderId">	</td>
         <td>{{entity.orderId}}</td>
-        <td>{{entity.buyerNick}}</td>
+        <!--<td>{{entity.buyerNick}}</td>-->
         <td>{{entity.receiver}}</td>
         <td>{{entity.receiverMobile}}</td>
         <td>{{entity.payment}}</td>
@@ -235,32 +219,7 @@
 
 
 
-    <div ng-show="show" id="add_show" style="width: 500px;height: 500px;text-align: center">
 
-    <p>新增订单</p>
-    <span>商品名</span><input type="text" ng-model="k_shName"  ng-class="{red:checks}" placeholder="6-20个字符"><br>
-    <span>用户名</span><input type="text" ng-model="k_Name" ng-class="{red:checks}" placeholder="4-16个字符"><br>
-    <span>手机号</span><input type="text" ng-model="k_call"  ng-class="{red:checks}" placeholder="请输入手机号"><br>
-    <span>城市</span>
-    <select  >
-        <option>选择城市</option>
-        <option>北京</option>
-        <option>上海</option>
-        <option>广州</option>
-        <option>南京</option>
-    </select>
-
-    <ul style="width: 200px;height: 200px;display:block;margin-left:150px;text-align: center;background: red;opacity: 0.8">
-        <li>商品名不能为空</li>
-        <li>商品名必须是6-20个字符</li>
-        <li>用户名不能为空</li>
-        <li>用户名必须是4-16个字符</li>
-        <li>手机号格式不正确</li>
-        <li>请选择城市!</li>
-    </ul>
-    <button @click="" style="background: green">提交</button>
-
-</div>
 </div>
 </body>
 <script src="../plugins/vue/vue.js"></script>
